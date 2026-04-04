@@ -5,7 +5,7 @@ int main(void) {
     const int ecranLatime = 450;
     const int ecranInaltime = 700;
 
-    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 4: Obstacole");
+    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 5: Obstacole Inaltimi diferite");
 
     // Datele pasarii
     Vector2 pozitiePasare = { 100, ecranInaltime / 2 };
@@ -13,10 +13,18 @@ int main(void) {
     float gravitatie = 0.5f; //cat de repede sau incet cade(mai mare mai greu)
     float fortaSarituta = -8.0f;
 
-    //Stalpi
-    Rectangle stalpSus={450,0,50,250};
-    Rectangle stalpJos={4500,450,50,250};
+    //setari stalpi
+    float latimeStalp=50;
+    float spatiuIntreStalpi=180; //spatiu prin care trece pasarea
     float vitezaStalp=3.0f;
+
+    //initalizam 1 stalp cu o inaltime aleatorie pt cel de sus
+    float inaltimeInitiala=(float)GetRandomValue(50,400);
+
+    //Stalpi
+    Rectangle stalpSus={450,0,latimeStalp,inaltimeInitiala};
+    Rectangle stalpJos={4500,inaltimeInitiala +spatiuIntreStalpi,latimeStalp,ecranInaltime};
+    
 
     SetTargetFPS(60);
 
@@ -31,11 +39,18 @@ int main(void) {
         stalpSus.x -=vitezaStalp;
         stalpJos.x -=vitezaStalp;
 
+        //regenerare stalp cand iese din ecran
         //daca stalp a iesit din ecran il ppunem iara in dreapta
-        if (stalpSus.x <-50)
+        if (stalpSus.x <-latimeStalp)
         {
             stalpSus.x=ecranLatime;
             stalpJos.x=ecranLatime;
+
+            //generare o noua inaltime aleatoare stalp sus
+            float nouaInaltimeSus = (float)GetRandomValue(50,400);
+            stalpSus.height=nouaInaltimeSus;
+            //stalpul de jos incepe dupa cel de sus +spatiu liber
+            stalpJos.y=nouaInaltimeSus+spatiuIntreStalpi;
         }
        //Desenare stalp
        BeginDrawing();
