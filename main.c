@@ -2,29 +2,42 @@
 #include "raylib.h"
 
 int main(void) {
-    InitWindow(450, 700, "Flappy Bird Background");
+    const int ecranLatime = 450;
+    const int ecranInaltime = 700;
 
-    // ÎNCĂRCARE: Se face o singură dată la început
-    Texture2D background = LoadTexture("background.png"); 
+    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 3: Gravitatie");
+
+    // Datele pasarii
+    Vector2 pozitiePasare = { 100, ecranInaltime / 2 };
+    float vitezaPasare = 0;
+    float gravitatie = 0.5f;
+    float fortaSarituta = -8.0f;
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
+        // 1. LOGICA (Update)
+        
+        // Pasarea cade constant din cauza gravitatiei
+        vitezaPasare += gravitatie;
+        pozitiePasare.y += vitezaPasare;
+
+        // Daca apasam SPACE, pasarea sare
+        if (IsKeyPressed(KEY_SPACE)) {
+            vitezaPasare = fortaSarituta;
+        }
+
+        // 2. DESENARE (Draw)
         BeginDrawing();
-            ClearBackground(RAYWHITE);
+            ClearBackground(SKYBLUE);
 
-            // DESENARE: Afișăm imaginea la coordonatele (0, 0)
-            DrawTexture(background, 0, 0, WHITE);
+            // Desenam pasarea (un cerc galben momentan)
+            DrawCircleV(pozitiePasare, 20, YELLOW);
 
-            // Aici vine restul jocului tău...
-            DrawCircle(225, 350, 20, YELLOW); 
-
+            DrawText("Apasa SPACE ca sa sari!", 10, 10, 20, DARKGRAY);
         EndDrawing();
     }
 
-    // DESCARCARE: Eliberăm memoria la final
-    UnloadTexture(background);
     CloseWindow();
-
     return 0;
 }
