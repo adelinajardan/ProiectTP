@@ -1,13 +1,14 @@
 #define PLATFORM_DESKTOP
 #include "raylib.h"
+#define MAX_STALPI 3 //cati stalpi sa fie pe ecran in acelasi timp
 
 int main(void) {
     const int ecranLatime = 450;
     const int ecranInaltime = 700;
 
-    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 5: Obstacole Inaltimi diferite");
+    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 6: Mai multi stalpi");
 
-    // Datele pasarii
+    // Pasarea
     Vector2 pozitiePasare = { 100, ecranInaltime / 2 };
     float vitezaPasare = 0;
     float gravitatie = 0.5f; //cat de repede sau incet cade(mai mare mai greu)
@@ -15,16 +16,23 @@ int main(void) {
 
     //setari stalpi
     float latimeStalp=50;
-    float spatiuIntreStalpi=180; //spatiu prin care trece pasarea
+    float spatiuIntreStalpi_V=180; //spatiu prin care trece pasarea
     float vitezaStalp=3.0f;
+    float disIntreStalpi_O =260;//cat de des apar
 
-    //initalizam 1 stalp cu o inaltime aleatorie pt cel de sus
+    Rectangle stalpiSus[MAX_STALPI];
+    Rectangle stalpiJos[MAX_STALPI];
+
+
+    //initalizam totii 3 stalpi la d egale cu o inaltime aleatorie pt cel de sus
+    for(int i=0; i<MAX_STALPI;i++)
+    {
     float inaltimeInitiala=(float)GetRandomValue(50,400);
+    stalpiSus[i]=(Rectangle){ ecranLatime+i*disIntreStalpi_O,0, latimeStalp,inaltimeInitiala};
+    stalpiJos[i]=(Rectangle){ ecranLatime+i*disIntreStalpi_O,inaltimeInitiala+spatiuIntreStalpi_V, latimeStalp,ecranInaltime};
+    }
 
-    //Stalpi
-    Rectangle stalpSus={450,0,latimeStalp,inaltimeInitiala};
-    Rectangle stalpJos={4500,inaltimeInitiala +spatiuIntreStalpi,latimeStalp,ecranInaltime};
-    
+
 
     SetTargetFPS(60);
 
@@ -35,13 +43,28 @@ int main(void) {
 
         if (IsKeyPressed(KEY_SPACE)) vitezaPasare= -7.0f;
 
-        //miscam stalpii spre stanga
-        stalpSus.x -=vitezaStalp;
-        stalpJos.x -=vitezaStalp;
+        //miscam si resetam stalpii spre stanga
+        for(int i=0; i<MAX_STALPI; i++)
+        {
+            stalpiSus[i].x -=vitezaStalp;
+            stalpiJos[i].x -=vitezaStalp;
+            // resetare stalp cand iese din ecran
+            if (stalpiSus[i].x <-latimeStalp)
+            {
+                //trimitem in spatele ultimului stalp existent
+                stalpiSus[i].x=ecranLatime + (disIntreStalpi_O*(MAX_STALPI-1));
+                stalpiJos[i].x=stalpiSus[i].x;
+
+                float nouaInaltime=(float)GetRandomValue(50,400);
+                stalpiSus[i].height=nouaInaltime;
+                stalpiJos[i].y=nouaInaltime+spatiuIntreStalpi_V;
+            }
+        }
+        
 
         //regenerare stalp cand iese din ecran
         //daca stalp a iesit din ecran il ppunem iara in dreapta
-        if (stalpSus.x <-latimeStalp)
+        /*if (stalpSus.x <-latimeStalp)
         {
             stalpSus.x=ecranLatime;
             stalpJos.x=ecranLatime;
@@ -51,13 +74,16 @@ int main(void) {
             stalpSus.height=nouaInaltimeSus;
             //stalpul de jos incepe dupa cel de sus +spatiu liber
             stalpJos.y=nouaInaltimeSus+spatiuIntreStalpi;
-        }
+        }*/
        //Desenare stalp
        BeginDrawing();
             ClearBackground(SKYBLUE);
             //Desenam stalpi
-            DrawRectangleRec(stalpSus, GREEN);
-            DrawRectangleRec(stalpJos, GREEN);
+           for(int i=0; i<MAX_STALPI; i++)
+           {
+             DrawRectangleRec(stalpiSus[i], GREEN);
+            DrawRectangleRec(stalpiJos[i], GREEN);
+           }
 
             // Desenam pasarea (un cerc galben momentan)
             DrawCircleV(pozitiePasare, 20, YELLOW);
