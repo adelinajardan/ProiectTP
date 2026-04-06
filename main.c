@@ -6,8 +6,13 @@ int main(void) {
     const int ecranLatime = 450;
     const int ecranInaltime = 700;
 
-    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 6: Mai multi stalpi");
-
+    InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 6.2: Mai multi stalpi+Fundal");
+    Texture2D fundal = LoadTexture("background.png");
+    //Texture2D fundal = LoadTexture("C:/Users/adeli/OneDrive/Desktop/ProiectTP/background.png");
+    if(fundal.id==0)
+    {
+        TraceLog(LOG_WARNING,"Nu a fost gasita imag de fundal");
+    }
     // Pasarea
     Vector2 pozitiePasare = { 100, ecranInaltime / 2 };
     float vitezaPasare = 0;
@@ -77,32 +82,32 @@ int main(void) {
         }*/
        //Desenare stalp
        BeginDrawing();
-            ClearBackground(SKYBLUE);
+            ClearBackground(BLACK);
+            //stergem ecranul
+            //desnam fundal
+            DrawTexture(fundal,0,0,WHITE);
             //Desenam stalpi
            for(int i=0; i<MAX_STALPI; i++)
            {
-             DrawRectangleRec(stalpiSus[i], GREEN);
-            DrawRectangleRec(stalpiJos[i], GREEN);
+             DrawRectangleRec(stalpiSus[i], DARKGREEN);
+            DrawRectangleRec(stalpiJos[i], DARKGREEN);
            }
 
             // Desenam pasarea (un cerc galben momentan)
             DrawCircleV(pozitiePasare, 20, YELLOW);
         
-        // Pasarea cade constant din cauza gravitatiei
+        /*// Pasarea cade constant din cauza gravitatiei
         vitezaPasare += gravitatie;
         pozitiePasare.y += vitezaPasare;
 
         // Daca apasam SPACE, pasarea sare
         if (IsKeyPressed(KEY_SPACE)) {
             vitezaPasare = fortaSarituta;
-        }
-
-        
-
-            DrawText("Apasa SPACE ca sa sari!", 10, 10, 20, DARKGRAY);
+        }*/
+            DrawText("Apasa SPACE ca sa sari!", 10, 10, 20, DARKBLUE);
         EndDrawing();
     }
-
+    UnloadTexture(fundal);
     CloseWindow();
     return 0;
 
