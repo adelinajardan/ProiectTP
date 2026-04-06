@@ -2,11 +2,18 @@
 #include "raylib.h"
 #define MAX_STALPI 3 //cati stalpi sa fie pe ecran in acelasi timp
 
+typedef enum
+{
+    MENU,
+    GAMEPLAY
+}StareJoc;
+
 int main(void) {
     const int ecranLatime = 450;
     const int ecranInaltime = 700;
 
     InitWindow(ecranLatime, ecranInaltime, "Flappy Bird - Pasul 6.2: Mai multi stalpi+Fundal");
+    StareJoc stareCurenta=MENU;
     Texture2D fundal = LoadTexture("background.png");
     //Texture2D fundal = LoadTexture("C:/Users/adeli/OneDrive/Desktop/ProiectTP/background.png");
     if(fundal.id==0)
@@ -43,6 +50,16 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         // 1. LOGICA (Update)
+        if (stareCurenta==MENU)
+        {
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                stareCurenta=GAMEPLAY;
+            }
+        }
+        else if(stareCurenta==GAMEPLAY)
+        {
+
         vitezaPasare +=gravitatie;
         pozitiePasare.y+= vitezaPasare;
 
@@ -65,6 +82,7 @@ int main(void) {
                 stalpiJos[i].y=nouaInaltime+spatiuIntreStalpi_V;
             }
         }
+    }
         
 
         //regenerare stalp cand iese din ecran
@@ -86,6 +104,16 @@ int main(void) {
             //stergem ecranul
             //desnam fundal
             DrawTexture(fundal,0,0,WHITE);
+            if(stareCurenta==MENU)
+            {
+                DrawRectangle(0,0,ecranLatime,ecranInaltime,Fade(BLACK,0.6f));
+                //DrawText("Textul", x, y, dimensiuneFont, culoare);
+                DrawText("FLAPPY BIRD by Adelina Jardan ",40,200,25,YELLOW); //60, 200,40
+                DrawText("Apasa [SPACE] pentru START",70,350,20,WHITE);
+            }
+            else if(stareCurenta==GAMEPLAY)
+            {
+        
             //Desenam stalpi
            for(int i=0; i<MAX_STALPI; i++)
            {
@@ -105,6 +133,7 @@ int main(void) {
             vitezaPasare = fortaSarituta;
         }*/
             DrawText("Apasa SPACE ca sa sari!", 10, 10, 20, DARKBLUE);
+        }
         EndDrawing();
     }
     UnloadTexture(fundal);
