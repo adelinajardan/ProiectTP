@@ -1,0 +1,4 @@
+game
+raylib/
+*.o
+.vscode/
