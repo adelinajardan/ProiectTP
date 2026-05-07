@@ -8,15 +8,22 @@
 int main(void) {
     
     
-    InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT, "Flappy Bird - linux.1");
+    InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT, "Flappy Bird by ADE");
     
     SetTargetFPS(60);
-    Texture2D background=LoadTexture("assets/background.jpg");
+
+    Texture2D background=LoadTexture("assets/background.png");
     Bird bird;
     Pipe pipes[MAX_PIPES];
     GameState gameState=STATE_START;
     InitBird(&bird);
     InitPipes(pipes);
+
+
+    if (background.id==0)
+    {
+        TraceLog(LOG_ERROR, "error la incarcare img");
+    }
 
     
     while (!WindowShouldClose()) 
