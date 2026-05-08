@@ -70,8 +70,8 @@ int main(void) {
 
             if (gameState == STATE_START)
             {
-                DrawText("FLAPPY BIRD",SCREEN_WIDTH/2-140,SCREEN_HEIGHT/2-50,40,DARKGRAY);
-                DrawText("Press SPACE to JUMP and START", SCREEN_WIDTH/2-180, SCREEN_HEIGHT/2+20, 20, GRAY);
+                DrawText("FLAPPY BIRD",SCREEN_WIDTH/2-140,SCREEN_HEIGHT/2-50,40,BLACK);
+                DrawText("Press SPACE to JUMP and START", SCREEN_WIDTH/2-180, SCREEN_HEIGHT/2+20, 20, DARKGRAY);
             }
             else if (gameState == STATE_GAMEPLAY)
             {
@@ -82,8 +82,9 @@ int main(void) {
             {
                 DrawPipes(pipes);
                 DrawBird(&bird);
-                DrawRectangle(0,0,SCREEN_WIDTH, SCREEN_HEIGHT, Fade(BLACK,0.5f));
-                DrawText("GAME OVER! Press SPACE to Restart", SCREEN_WIDTH/2-120, SCREEN_HEIGHT/2-40, 40, RED);
+                DrawRectangle(0,0,SCREEN_WIDTH, SCREEN_HEIGHT, Fade(BLACK,0.7f));
+                DrawText("GAME OVER!", SCREEN_WIDTH/2-180, SCREEN_HEIGHT/2-50, 50, RED);
+                DrawText("Press SPACE to Restart", SCREEN_WIDTH/2-120, SCREEN_HEIGHT/2+20, 20, BLACK);
             }
 
     

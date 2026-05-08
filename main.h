@@ -7,7 +7,7 @@
 #define SCREEN_HEIGHT 800
 
 #define GRAVITY 0.4f
-#define JUMP_STENGTH -6.0f
+#define JUMP_STENGTH -7.0f
 #define PIPE_SPEED 3.0f
 
 typedef enum GameState
@@ -16,5 +16,16 @@ typedef enum GameState
     STATE_GAMEPLAY,
     STATE_GAMEOVER
 }GameState;
+
+typedef struct Pipe
+{
+    Rectangle top;
+    Rectangle bottom;
+    float xPos;
+    bool active;
+}Pipe;
+
+extern int score;
+extern int highScore;
 
 #endif 
