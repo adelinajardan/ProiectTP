@@ -5,7 +5,7 @@ void InitBird(Bird *bird)
     bird->position =(Vector2){100,SCREEN_HEIGHT/2.0f};
     bird->velocity = 0.0f;
     bird->radius= 20.0f;
-    bird->color = GOLD;
+    //bird->color = GOLD;
     
 }
 
@@ -26,5 +26,20 @@ void UpdateBird(Bird *bird)
 
 void DrawBird (Bird *bird)
 {
-    DrawCircleV(bird->position, bird->radius, bird->color);
+    if (bird->texture.id <=0) return;
+
+    Rectangle source={0,0,(float)bird->texture.width,(float)bird->texture.height};
+
+    float birdWidth =bird->radius*3.5f;
+    float birdHeight = bird->radius*2.8f;
+
+    Rectangle dest={
+        bird->position.x,
+        bird->position.y,
+        birdWidth,
+        birdHeight
+    };
+    Vector2 origin={birdWidth/2.0f, birdHeight/2.0f};
+    float rotation=bird->velocity*3.0f;
+    DrawTexturePro(bird->texture,source,dest,origin,rotation,WHITE);
 }

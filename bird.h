@@ -8,7 +8,7 @@ typedef struct Bird
     Vector2 position;
     float velocity;
     float radius;
-    Color color;
+    Texture2D texture;
 }Bird;
 
 void InitBird(Bird *bird);

@@ -21,10 +21,17 @@ int main(void) {
     InitBird(&bird);
     InitPipes(pipes);
 
+    Texture2D birdIm=LoadTexture("assets/bird.png");
+    bird.texture=birdIm;
+    if (bird.texture.id==0)
+    {
+        TraceLog(LOG_ERROR, "error la incarcare img bird");
+    }
+
 
     if (background.id==0)
     {
-        TraceLog(LOG_ERROR, "error la incarcare img");
+        TraceLog(LOG_ERROR, "error la incarcare img fundal");
     }
 
     
@@ -104,6 +111,7 @@ int main(void) {
     }
 
     UnloadTexture(background);  
+    UnloadTexture(birdIm);
     CloseWindow();
     return 0;
 }
