@@ -17,13 +17,6 @@ typedef enum GameState
     STATE_GAMEOVER
 }GameState;
 
-typedef struct Pipe
-{
-    Rectangle top;
-    Rectangle bottom;
-    float xPos;
-    bool active;
-}Pipe;
 
 extern int score;
 extern int highScore;

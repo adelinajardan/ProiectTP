@@ -15,6 +15,6 @@ typedef struct Pipe
 }Pipe;
 
 void InitPipes(Pipe pipes[]);
-void UpdatePipes(Pipe pipes[]);
+void UpdatePipes(Pipe pipes[], Rectangle birdRect);
 void DrawPipes(Pipe pipes[]);
 #endif

@@ -4,6 +4,8 @@
 #include "pipes.h"
 #include "game.h"
 
+int score=0;
+int highScore=0;
 
 int main(void) {
     
@@ -40,16 +42,21 @@ int main(void) {
         else if (gameState==STATE_GAMEPLAY)
         {
             UpdateBird(&bird);
-            UpdatePipes(pipes);
-            if (CheckCollisions(bird, pipes))
+            Rectangle birdRect={bird.position.x-bird.radius, bird.position.y-bird.radius, bird.radius*2, bird.radius*2};
+            UpdatePipes(pipes,birdRect);
+            if (CheckCollisions(bird,pipes))
             {
+                if(score>highScore)
+                highScore=score;
                 gameState=STATE_GAMEOVER;
             }
         }
         else if (gameState==STATE_GAMEOVER)
         {
+            
             if (IsKeyPressed(KEY_SPACE))
             {
+                score=0;
                 InitBird(&bird);
                 InitPipes(pipes);
                 gameState=STATE_START;
@@ -70,8 +77,8 @@ int main(void) {
 
             if (gameState == STATE_START)
             {
-                DrawText("FLAPPY BIRD",SCREEN_WIDTH/2-140,SCREEN_HEIGHT/2-50,40,BLACK);
-                DrawText("Press SPACE to JUMP and START", SCREEN_WIDTH/2-180, SCREEN_HEIGHT/2+20, 20, DARKGRAY);
+                DrawText("FLAPPY BIRD",SCREEN_WIDTH/2-140,200,40,BLACK);
+                DrawText("Press SPACE to JUMP and START", SCREEN_WIDTH/2-180, 260, 20, DARKGRAY);
             }
             else if (gameState == STATE_GAMEPLAY)
             {
@@ -80,12 +87,17 @@ int main(void) {
             }
             else if (gameState == STATE_GAMEOVER)
             {
+
                 DrawPipes(pipes);
                 DrawBird(&bird);
                 DrawRectangle(0,0,SCREEN_WIDTH, SCREEN_HEIGHT, Fade(BLACK,0.7f));
                 DrawText("GAME OVER!", SCREEN_WIDTH/2-180, SCREEN_HEIGHT/2-50, 50, RED);
                 DrawText("Press SPACE to Restart", SCREEN_WIDTH/2-120, SCREEN_HEIGHT/2+20, 20, BLACK);
             }
+
+            DrawText(TextFormat("%02i",score),SCREEN_WIDTH/2-20,50,60,WHITE);
+            DrawText(TextFormat("HI: %02i",highScore),20,20,20,YELLOW);
+
 
     
         EndDrawing();

@@ -1,7 +1,7 @@
 #include "pipes.h"
+#include "main.h"
 #include <stdlib.h>
 
-int score=0;
 
 void InitPipes(Pipe pipes[])
 {
@@ -17,7 +17,7 @@ void InitPipes(Pipe pipes[])
 
         pipes[i].top=(Rectangle){pipes[i].xPos,0,pipeWidth, gapY};
         pipes[i].bottom=(Rectangle){pipes[i].xPos,gapY + gapHeight,pipeWidth, SCREEN_HEIGHT-(gapY +gapHeight)};
-        pipes[i].active=true;
+        //pipes[i].active=true;
 
     }
 }
